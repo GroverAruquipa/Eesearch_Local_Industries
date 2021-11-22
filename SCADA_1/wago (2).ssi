@@ -1,0 +1,21 @@
+{
+"gdh": "<!--#GETTIMEDATE FORMAT=%A %d.%m.%y a %H:%M:%S-->",
+
+"dataIn" : [
+<!--#READPI ADR=QW0&FORMAT=%d-->,
+<!--#READPI ADR=QW1&FORMAT=%d-->,
+<!--#READPI ADR=MW4&FORMAT=%d-->,
+<!--#READPI ADR=IX2.0&FORMAT=%d-->,
+<!--#READPI ADR=IX2.1&FORMAT=%d-->,
+<!--#READPI ADR=IX2.2&FORMAT=%d-->,
+<!--#READPI ADR=IX2.3&FORMAT=%d-->,
+<!--#READPI ADR=QX2.0&FORMAT=%d-->,
+<!--#READPI ADR=QX2.1&FORMAT=%d-->,
+<!--#READPI ADR=QX2.2&FORMAT=%d-->,
+<!--#READPI ADR=QX2.3&FORMAT=%d-->,
+<!--#READPI ADR=MX1.6&FORMAT=%d-->,
+<!--#READPI ADR=MX1.7&FORMAT=%d-->
+]
+}
+
+

@@ -1,0 +1,421 @@
+<html lang="fr">
+<head>
+<!DOCTYPE html>
+	<style>
+			html {
+		  margin: 0;
+		  padding: 0;
+		  background-color: rgb(200, 200, 200);
+		}
+
+		#container {
+		  position: absolute;
+		  left: 0;
+		  right: 0;
+		  top: 0;
+		  bottom: 0;
+		  margin: auto;
+		  width: 640px;
+		  height: auto;
+		  max-width: 100%;
+		  min-width: 600px;
+		  max-height: 100%;
+		  background-color: rgb(79, 129, 189);
+		}
+
+		span > img {
+		  float: right;
+		  margin-top: -28px;
+		  margin-right: 20px;
+		  height: 40px;
+		}
+
+		#titre {
+		  font-family: Arial;
+		  font-size: 28px;
+		  color: #23236f;
+		  text-shadow: 1px 1px 2px #ffc5cf;
+		  margin: 12px;
+		}
+
+		#date, .section, #titre {
+		  padding-top: 5px;
+		  padding-bottom: 5px;
+		}
+
+		#visu, #date, .section, #commandes {
+		  margin-top: 10px;
+		  border: 3px solid rgb(56, 93, 138);
+		  border-radius: 16px;
+		  background-color: rgb(112, 146, 190);
+		  width: 400px;
+		}
+
+		#visu {
+		  padding-bottom: 10px;
+		}
+
+		#commandes table {
+		  display: table-cell;
+		  text-align: center;
+		  border-spacing: 6px;
+		  padding-bottom: 5px;
+		}
+
+		td[id] {
+		  background-color: lightgrey;
+		  border: 1px solid grey;
+		  font-family: verdana;
+		  font-size: 12px;
+		}
+
+/*		.section {
+		  width: 400px;
+		  background-color: #735bcc;
+		  height: 20px;
+		  margin-top: 0px;
+		  padding-top: 0px;
+		  border-top-left-radius: 13px;
+		  border-top-right-radius: 13px;
+		  font-family: arial;
+		  font-size: 18px;
+		  margin-bottom: 10px;
+		  border-bottom: 3px solid rgb(56, 93, 138);
+		  color: #0f0d6f;
+		}*/
+
+		button {
+		  width: 140px;
+		  height: 30px;
+		  color: black;
+		  background-color: lightgrey;
+		  border-color: grey;
+		}
+
+		.actif:not(.green) {
+		  background-color: #d73131;
+		  border-color: rgb(106, 7, 22);
+		  color: white;
+		}
+
+		.actif.green {
+		  background-color: #45e64b;
+		  border-color: rgb(7, 106, 22);
+		}
+
+		button:not(#acq) {
+		  border-radius: 11px;
+		}
+
+		#tcons {
+			width: 50px;
+			text-align: right;
+		}
+
+		#tcons.grey {
+		  background-color: #EAE5E5;
+		}
+
+		.orange:not(:disabled) {
+		  background-color: orange;
+		  border-color: rgb(172, 107, 0);
+		}
+
+		.switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 45px;
+		  height: 24px;
+		}
+
+		.switch input { 
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		}
+
+		.slider {
+		  position: absolute;
+		  cursor: pointer;
+		  top: 0;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  background-color: #ccc;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		.slider:before {
+		  position: absolute;
+		  content: "";
+		  height: 18px;
+		  width: 18px;
+		  left: 4px;
+		  bottom: 3px;
+		  background-color: white;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+		}
+
+		input:checked:disabled + .slider {
+		  background-color: #ccc;
+		}
+
+		input:checked:not(disabled) + .slider {
+		  background-color: #065595;
+		}
+
+		input:focus + .slider {
+		  box-shadow: 0 0 1px #065595;
+		}
+
+		input:checked + .slider:before {
+		  -webkit-transform: translateX(19px);
+		  -ms-transform: translateX(19px);
+		  transform: translateX(19px);
+		}
+
+		/* Rounded sliders */
+		.slider.round {
+		  border-radius: 34px;
+		}
+
+		.slider.round:before {
+		  border-radius: 50%;
+		}
+
+	</style>
+	<script src="./lib/jquery-3.4.1.min.js"></script>
+	<script type="text/javaScript">
+/*	 
+	0 Tair (t0)
+	1 Teau (t1)
+	2 Tcons (tcons)
+	3 Inter1 = Horloge
+	4 Inter2 = Niveau
+	5 Inter3 = Incident
+	6 Inter4
+	7 Led1 = Pompe solaire
+	8 Led2 = Pompe filtration
+	9 Led3 = Alarme
+	10 Led4 = Memo Alarme
+	11 Manuel (man)
+	12 MForcÃ©e (mfc)
+	$("#acq").attr("disabled", ((data.dataIn[4] == "0") && (data.dataIn[5] == "0") && (data.dataIn[6] == "0") && (data.dataIn[9] == "0") && (data.dataIn[10] == "1")) ? null : "disabled");
+*/
+	jQuery(document).ready(function(){
+		$("button").attr("disabled", "diabled");
+		function update(initial = false) {
+			var errNetwork = false;
+			$.ajax({
+				url: "wago.ssi",
+				type: "get",
+				cache: false,
+				timeout: 1000,
+				success: function(data) {
+					$("#no_net").css("display", "none");
+					data = JSON.parse(data);
+					$("#gdh").html(data.gdh);
+					$("#gdh1").html(data.gdh1);
+					$("#gdh2").html(data.gdh2);
+					$("#t0").html((data.dataIn[0]/32767*30).toFixed(1).replace(".", ","));
+					$("#t1").html((data.dataIn[1]/32767*30).toFixed(1).replace(".", ","));
+					if (initial) {
+						$("#man").prop("checked", data.dataIn[11]);
+						$("#mfc").prop({"checked": data.dataIn[12], "disabled":!data.dataIn[10]});
+						$("#tcons").toggleClass("grey", data.dataIn[11] == "1");
+					}
+					for (var i = 3; i < 11; i++) {
+						$("#b" + i).toggleClass("actif", data.dataIn[i] == "1");
+					}
+					
+					if (!($("#tcons").is(":focus"))) {
+						var valeur = ((data.dataIn[2])/32767*30).toFixed(1);
+						$("#tcons").attr("data", valeur).val(valeur);
+					}
+				},
+				error: function() { $("#no_net").css("display", ""); }
+			});
+		}
+		
+		function isNumber(evt, element) {
+			var charCode = (evt.which) ? evt.which : event.keyCode
+			if ((charCode != 44 || $(element).val().indexOf(',') != -1) &&
+				(charCode < 48 || charCode > 57))
+				return false;
+		    return true;
+		}
+		
+		$("#tcons").change(function() {
+			var valeur = parseFloat($(this).val().replace(",",".")).toFixed(1);
+			if ((valeur < 0) || (valeur > 30)) $(this).val($(this).attr("data"));
+			else {
+				$.post("/WRITEPI", { ADR1: "MW4", VALUE1: parseInt(valeur/30*32767), FORMAT1: "%d" })
+					.done(function() {
+						$("#tcons").attr("data",valeur).val(valeur);
+					})
+					.fail(function() {
+						$("#tcons").val($("#tcons").attr("data"));
+					});
+			}
+		}).keypress(function (event) {
+			return isNumber(event, this)
+		});
+		
+		$("#man").change(function(){
+			var checked = $(this).is(":checked");
+			$.post("/WRITEPI", { ADR1: "MX1.6", VALUE1: ((checked) ? "1" : "0"), FORMAT1: "%d" })
+				.done(function() {
+					$("#mfc").prop("disabled", !checked);
+					$("#tcons").toggleClass("grey", checked);
+					update();
+				})
+				.fail(function() {
+					$("#man").prop("checked", !checked);
+				});
+		});
+		$("#mfc").change(function(){
+			$.post("/WRITEPI", { ADR1: "MX1.7", VALUE1: ($("#mfc").is(":checked") ? "1" : "0"), FORMAT1: "%d" })
+				.done(function() {
+					update();
+				})
+				.fail(function() {
+					$("#mfc").prop("checked", $("#mfc").is(":checked"));
+				});
+		});
+		$("#acq").click(function(){
+			$.post("/WRITEPI", { ADR1: "MX1.8", VALUE1: "1", FORMAT1: "%d" })
+				.done(function() {
+					update();
+				});
+		});
+		update(true);
+		setInterval(update, 1000);
+	});
+	</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>SCADA Supervision app</title>
+<link rel="stylesheet" href="scada.css">
+</head>
+
+<body>
+<div>
+<table border="2px" border-color="black">
+    <thead>
+        <tr>
+            <div align="center" class="section"><b>Horodatage</b></div>
+        </tr>
+   </thead>
+    <tbody>
+        <tr>
+            <td align="center" class="h1">Date et heure :</td>
+            <td class="h1" width= "60px" height="30px" id="gdh"></td>
+	    <td class="h1" width= "60px" height="30px" id="gdh1"></td>
+		<td class="h1" width= "60px" height="30px" id="gdh2"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table border="2px" border-color="black">
+    <thead>
+        <tr>
+             <div align="center" class="section"><b>Entrées / Sorties</b></div>
+  <div>
+	  <table>
+	  <tbody>
+		 <tr>
+            <td align="right">T° air: </td>
+            <td id="t0" width="30px" align="right"></td>
+            <td> °C</td>
+         </tr>
+         <tr>
+            <td align="right">T° eau</td>
+			<td id="t1" align="right"></td>
+            <td> °C</td>
+         </tr>
+		 <tr>
+			<td><button id="b3" class="green">Horloge</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		 
+		 <tr>
+			<td><button id="b4">Niveau</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		 
+		 <tr>
+			<td><button id="b5">Incident</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+			 <tr>
+			<td><button id="b6">Autre</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		 
+		 <tr>
+			<td><button id="b7" class="green">Pompe solaire</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		 <tr>
+			<td><button id="b8" class="green">Pompe filtration</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		 
+		 <tr>
+			<td><button id="b9">Anomalie</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		 <tr>
+			<td><button id="b10">Mémoire anomalie</button></td>
+			<td></td>
+			<td></td>
+		 </tr>
+		  <tr style="height:10px">
+				<td colspan="3"></td>
+			</tr>
+		 </tbody>
+	  </table>
+	</div>
+
+	<div align="center" class="section"><b>Commandes</b></div>
+	<div>
+	  <table>
+	  <tbody>
+		 <tr>
+            <td width="130px" align="right">T°cons</td>
+            <td><input id="tcons" type="number" step="0.1" min="0" max="30"></td>
+            <td width="130px" align="left"> °C</td>
+         </tr>
+		<tr>
+            <td align="right">Mode automatique</td>
+            <td><label class="switch"><input id="man" type="checkbox"><span class="slider round"></span></label></td>
+            <td align="left">Mode manuel</td>
+         </tr>
+		 <tr>
+			<td align="right">Chauffage</td>
+			<td><label class="switch"><input id="mfc" type="checkbox" disabled="disabled"><span class="slider round"></span></label></td>
+			<td></td>
+		 </tr>
+		 <tr>
+			<td colspan="3"><button id="acq" class="orange">Acquitter anomalie</button></td>
+		 </tr>
+            </div>
+        </tr>
+
+    </tbody>
+</table>
+</div>
+
+</body>
+</html>

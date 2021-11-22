@@ -1,0 +1,25 @@
+{
+"gdh": "<!--#GETTIMEDATE FORMAT=%A %d.%m.%y a %H:%M:%S-->",
+"dataIn":[
+
+	<!--#READAPI ADR=QW0&FORMAT=%d-->, 
+	<!--#READAPI ADR=QW1&FORMAT=%d-->,
+	
+	<!--#READAPI ADR=MW4&FORMAT=%d-->,
+	
+	<!--#READAPI ADR=IX2.0&FORMAT=%d-->,
+	<!--#READAPI ADR=IX2.1&FORMAT=%d-->,
+	<!--#READAPI ADR=IX2.2&FORMAT=%d-->,
+	<!--#READAPI ADR=IX2.3&FORMAT=%d-->,
+
+	<!--#READAPI ADR=QX2.0&FORMAT=%d-->,
+	<!--#READAPI ADR=QX2.1&FORMAT=%d-->,
+	<!--#READAPI ADR=QX2.2&FORMAT=%d-->,
+	<!--#READAPI ADR=QX2.3&FORMAT=%d-->,
+	
+	<!--#READAPI ADR=MX1.6&FORMAT=%d-->,
+	<!--#READAPI ADR=MX1.7&FORMAT=%d-->,
+]
+
+
+}

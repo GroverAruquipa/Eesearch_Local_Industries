@@ -1,0 +1,179 @@
+<html>
+<head>
+	
+	
+    <style>
+    .myDiv {
+    border: 5px outset rgb(51, 34, 34);
+    background-color: lightblue;
+    text-align: center;
+    }
+    .myDiv1 {
+    border: 5px outset rgb(51, 34, 34);
+    background-color: lightblue;
+    text-align: center;
+    }
+    .myDiv2 {
+    border: 5px outset rgb(51, 34, 34);
+    background-color: lightblue;
+    text-align: center;
+    }
+    .center{
+        text-align: center;
+    }
+
+
+    </style>
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div id="principal" class="centered-content">
+        <header>
+            <!--SCADA SYSTEM-->
+            Timestamps
+            <!--<h1>Timestamps</h1>  -->
+        </header>
+            <!--FIRST DIVISION-->
+        <div id="container">
+            <table id="table1">
+                <tr>
+                    <th>Date and Hours:</th>
+
+                    <th id="gdh"><!--id="gdh"--></th><!--DATE CHANGE-->
+                    
+                    <th id="p2">Data</th>
+                    
+                </tr>
+                <tr >
+                    <th id="spacetr"></th>
+                </tr>
+
+
+            </table>
+
+
+        </div>
+        <header>
+            <!--SCADA SYSTEM-->
+            Inputs and Outputs
+            
+        </header>
+       
+            <!--SECOND DIVISION-->
+        <div id="container">
+            <table id=table1>
+                <tr>
+                    <th align="right">Air Temperature</th>
+                    <th id="t0"></th> <!--Air Temperature UPDATE-->
+                    <th> °C</th>
+                </tr>
+                <tr>
+                    <th align="right">Water temperature</th>
+                    <th id="h1"></th> <!--Air Humidity UPDATE-->
+                    <th> °C</th>
+                </tr>
+                <tr>
+                    <th><button id="b3" class="green">Clock</button></th> 
+                    <th></th> <!--Air Humidity UPDATE-->
+                    <th> </th>
+                </tr>
+                <tr>
+                    <th><button id="b4">Level</button></th>
+                    <th></th>
+                    <th></th>
+                 </tr>
+                 
+                <tr>
+                    <th><button id="b5">Incidences</button></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                    <tr>
+                    <th><button id="b6">Others</button></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                
+                <tr>
+                    <th><button id="b7" class="green">Solar Pump</button></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th><button id="b8" class="green">Filtration pump</button></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                
+                <tr>
+                    <th><button id="b9">Anomalies</button></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <th><button id="b10">Anomaly memory</button></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr >
+                    <th id="spacetr"></th>
+                </tr>
+
+
+            </table>
+
+            </div>
+    
+        <header>
+            <!--SCADA SYSTEM-->
+            
+            Commands
+        </header>
+    
+            <!--THIRD DIVISION-->
+        <div id="container">
+            <table id=table1>
+                <tr>
+                    <th width="130px" >T°cons</th>
+                    <th><input id="tcons" type="number" step="0.1" min="0" max="30"></th>
+                    <!--<th> </th> -->
+					<th width="130px" > °C</th>
+					
+                 </tr>
+                <tr>
+                    <th >Automatic mode</th>
+                    <th><label class="switch"><input id="man" type="checkbox"><span class="slider round"></span></label>
+					<label class="switch"><input id="man2" type="checkbox"><span class="slider round"></span>
+					
+					</th>
+				
+                    <th >Manual mode</th>
+                 </tr>
+                 <tr>
+                    <th >Heating</th>
+                    <th><label class="switch"><input id="mfc" type="checkbox" disabled="disabled"><span class="slider round"></span></label></th>
+                    <th></th>
+                 </tr>
+                 <tr>
+                    <th colspan="3"><button id="acq" class="orange">Acquitter</button></th>
+                 </tr>
+
+
+            </table>
+
+
+        </div>
+        <div id="example"></div>
+
+    </div>
+
+
+
+    
+    <!--<script>src="main.js" ;type="text/JavaScript"</script> -->
+    <script src="wago.js" ></script>
+
+</body>
+</html>
