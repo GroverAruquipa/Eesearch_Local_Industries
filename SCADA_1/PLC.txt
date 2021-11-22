@@ -1,0 +1,25 @@
+Horloge := Inter1;
+Niveau := Inter2;
+Incident := Inter3;
+(* Int4 := Inter4; *)
+
+Tair := MIN(32767, TRUNC((MAX(Sonde1, 186) - 186) * 32767 / (6010 - 186)));
+Teau := MIN(32767, TRUNC((MAX(Sonde2, 188) - 188) * 32767 / (5942 - 188)));
+
+Galva1 := Tair; (*TRUNC(Tair * 2960 / 32767) + 40;*)
+Galva2 := Teau; (*TRUNC(Teau * 2850 / 32767) + 150;*)
+
+Alarme := Niveau OR Incident;
+
+Led1 := NOT (Alarme OR Memoire) AND ((Manu AND MForcee) OR (NOT(Manu) AND (Tair > Teau + 5461) AND (Teau < Tcons)));
+Led2 := NOT (Alarme OR Memoire) AND ((Manu AND MForcee) OR (NOT(Manu) AND (Horloge OR ((Tair  > Teau + 5461) AND (Teau< Tcons)))));
+Led3 := Alarme;
+Led4 := Memoire;
+
+IF Alarme AND NOT Memoire
+	THEN EnvoiMel := TRUE; Memoire := TRUE;
+END_IF;
+
+IF Memoire AND Done AND NOT Alarme AND Acquittement
+	THEN Memoire := FALSE; Acquittement := FALSE;
+END_IF;
